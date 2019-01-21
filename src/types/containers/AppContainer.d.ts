@@ -1,0 +1,3 @@
+interface AppContainerStateProps {
+  isLogin: boolean;  
+}

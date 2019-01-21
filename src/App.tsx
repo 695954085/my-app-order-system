@@ -1,16 +1,38 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+  withRouter,
+} from 'react-router-dom';
 import './App.css';
 import LoginContainer from './containers/LoginContainer';
 import MainContainer from './containers/MainContainer';
 
-export default function App() {
+function App({ isLogin }: AppContainerStateProps) {
   return (
     <div className='App'>
-      <Router>
-        <Route exact path='/' component={MainContainer} />
-        <Route exact path='/login' component={LoginContainer} />
-      </Router>
+      <Switch>
+        <Route path='/login' component={LoginContainer} />
+        <Route
+          path='/'
+          render={(props) =>
+            !isLogin ? <Redirect to='/login' /> : <MainContainer />
+          }
+        />
+      </Switch>
     </div>
   );
 }
+
+const mapStateToProps = (state: ReducerType, ownProps: {}) => {
+  return {
+    isLogin: state.loginByUserName.userName === '' ? false : true,
+  };
+};
+
+export default withRouter<any>(
+  connect<AppContainerStateProps, {}, {}, ReducerType>(mapStateToProps)(App),
+);
