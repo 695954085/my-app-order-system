@@ -15,9 +15,10 @@ class NormalLoginForm extends React.Component<PropTypes> {
       if (err) {
         console.log(err);
       }
-      const { userName, password } = values;
+      const { userName, password, remember } = values;
       this.props.onSubmit({
         password,
+        remember,
         userName,
       });
     });

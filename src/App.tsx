@@ -15,11 +15,12 @@ function App({ isLogin }: AppContainerStateProps) {
   return (
     <div className='App'>
       <Switch>
-        <Route path='/login' component={LoginContainer} />
+        <Route exact path='/login' component={LoginContainer} />
         <Route
+          exact
           path='/'
           render={(props) =>
-            !isLogin ? <Redirect to='/login' /> : <MainContainer />
+            !isLogin ? <Redirect to='/login' /> : <MainContainer {...props} />
           }
         />
       </Switch>

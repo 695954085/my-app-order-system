@@ -23,6 +23,7 @@ export function loginByUserName(
       };
     case LOGIN_SUCCESS:
       return {
+        error: '',
         isFetching: false,
         userName: action.userName,
       };
