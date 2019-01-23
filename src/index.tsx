@@ -15,11 +15,18 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger());
 }
 
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
   composeEnhancers(applyMiddleware(...middleware)),
 );
+
+const token = window.localStorage.getItem('my-app-order-system');
+if (token) {
+  // login by token
+
+}
 
 ReactDOM.render(
   <Provider store={store}>

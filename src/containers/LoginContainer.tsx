@@ -22,7 +22,7 @@ LoginContainer.propTypes = {
   error: PropTypes.string,
   fetchLogin: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  // isLogin: PropTypes.bool,
+  isLogin: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state: ReducerType) => ({

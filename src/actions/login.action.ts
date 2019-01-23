@@ -1,5 +1,8 @@
 import { AnyAction, Dispatch } from 'redux';
-import { requestLogin as login } from '../api';
+import {
+  requestLogin as login,
+  requestLoginByToken as loginByToken,
+} from '../api';
 import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
@@ -31,14 +34,15 @@ export const fetchLogin = (params: LoginParams) => async (
     .then((responseData) => {
       // 成功登陆
       // 如果remember，那么把密码记录到localstorage
-      // 如果登陆成功，把密码放到sessionstorage
       const { data, type } = responseData;
       const { remember, userName } = params;
       if (type === 'success_login') {
         // dispatch action
-        dispatch(loginSuccess({
-          userName,
-        }));
+        dispatch(
+          loginSuccess({
+            userName,
+          }),
+        );
         if (remember) {
           // put the token in the localStorage
           window.localStorage.setItem('my-app-order-system', data);
@@ -55,4 +59,31 @@ export const fetchLogin = (params: LoginParams) => async (
       }
     })
     .catch((reason) => dispatch(loginFailure(JSON.stringify(reason))));
+};
+
+export const fetchLoginByToken = (token: string) => async (
+  dispatch: Dispatch,
+) => {
+  dispatch(loginRequest());
+  return loginByToken(token)
+    .then((response) => response.data)
+    .then((responseData) => {
+      // login success
+      // if setting remember, put token in the localStorage
+      // if login success, put the token in the
+      const { data, type } = responseData;
+      if (type === 'success_login') {
+        // dispatch action
+        
+      } else {
+        let action;
+        if (type === 'staff_no_exists') {
+          action = loginFailure('The login name does not exist');
+        }
+        if (type === 'fail_password_wrong') {
+          action = loginFailure('Password mistake');
+        }
+        dispatch(action as AnyAction);
+      }
+    });
 };
