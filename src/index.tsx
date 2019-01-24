@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
+import { fetchLoginByToken } from './actions/login.action';
 import App from './App';
 import './index.css';
 import reducer from './reducers';
@@ -22,11 +23,29 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware)),
 );
 
-const token = window.localStorage.getItem('my-app-order-system');
+const token = store.getState().loginByUserName.token;
+// if token is not null, dispatch loginByToken
 if (token) {
-  // login by token
-
+  store.dispatch(fetchLoginByToken(token) as any);
 }
+
+store.subscribe(() => {
+  // when the store update, sessionStorage store state which use to restore state in the store when user
+  // refresh the browser.
+  const loginByUserNameState = store.getState().loginByUserName;
+  sessionStorage.setItem(
+    'loginByuserNameInitialState',
+    JSON.stringify(loginByUserNameState),
+  );
+  // if remember and token are true, storage tokn in the localstorage
+  if (
+    store.getState().loginByUserName.remember &&
+    store.getState().loginByUserName.token
+  ) {
+    localStorage.setItem('my-app-order-system-token', store.getState()
+      .loginByUserName.token as string);
+  }
+});
 
 ReactDOM.render(
   <Provider store={store}>

@@ -55,8 +55,8 @@ export default class Main extends React.Component<
           </Menu>
         </Header>
         <Content>
-          {ServiceTypes.map((value) => (
-            <Route exact path={value.path} component={value.component} />
+          {ServiceTypes.map((value, index) => (
+            <Route exact path={value.path} component={value.component} key={`route_${index}`}/>
           ))}
         </Content>
         <Footer />

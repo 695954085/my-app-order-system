@@ -40,13 +40,11 @@ export const fetchLogin = (params: LoginParams) => async (
         // dispatch action
         dispatch(
           loginSuccess({
+            remember: !!remember,
+            token: data,
             userName,
           }),
         );
-        if (remember) {
-          // put the token in the localStorage
-          window.localStorage.setItem('my-app-order-system', data);
-        }
       } else {
         let action;
         if (type === 'staff_no_exists') {
@@ -74,14 +72,14 @@ export const fetchLoginByToken = (token: string) => async (
       const { data, type } = responseData;
       if (type === 'success_login') {
         // dispatch action
-        
+        loginSuccess({
+          token: data.token,
+          userName: data.userName,
+        });
       } else {
         let action;
-        if (type === 'staff_no_exists') {
-          action = loginFailure('The login name does not exist');
-        }
-        if (type === 'fail_password_wrong') {
-          action = loginFailure('Password mistake');
+        if (type === 'wrong_token') {
+          action = loginFailure('token expire');
         }
         dispatch(action as AnyAction);
       }
