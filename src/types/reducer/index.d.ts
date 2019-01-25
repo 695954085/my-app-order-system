@@ -1,7 +1,9 @@
 interface LoginByUserNameType {
   isFetching: boolean;
-  userName?: string;
-  error?: string;
+  token: string;
+  userName: string;
+  error: string;
+  remember: boolean;
 }
 
 interface ReducerType {

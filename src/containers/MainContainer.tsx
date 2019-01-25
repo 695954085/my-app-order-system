@@ -1,11 +1,15 @@
-import { Icon, Layout, Menu } from 'antd';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import Main from '../components/Main';
+import { MainContainerOwnProps } from '../types/containers/MainContainer';
 
-const { Header, Content, Footer } = Layout;
+const MainContainer = (props: MainContainerOwnProps) => <Main {...props} />;
 
-const MainContainer = ({}) => (
-  <div>Main</div>
+const mapStateToProps = (state: ReducerType) => ({});
+
+export default withRouter(
+  connect<{}, {}, MainContainerOwnProps, ReducerType>(mapStateToProps)(
+    MainContainer,
+  ),
 );
-
-export default connect()(MainContainer);

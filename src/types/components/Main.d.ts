@@ -1,0 +1,3 @@
+interface MainComponentState {
+  current: string;
+}

@@ -20,14 +20,17 @@ class Login extends React.Component<LoginPropTypes> {
     onSubmit: PropTypes.func.isRequired,
   };
 
-  public render() {
+  public componentDidUpdate() {
     const errorMessage = this.props.error;
     if (errorMessage) {
       notification.open({
         description: errorMessage,
-        message: 'Notification Title',
+        message: 'auto login fail',
       });
     }
+  }
+
+  public render() {
     return (
       <Layout>
         <Header>Header</Header>
