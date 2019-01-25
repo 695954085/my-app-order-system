@@ -11,7 +11,7 @@ let initialState: string | null | LoginByUserNameType = sessionStorage.getItem(
 if (initialState) {
   ((initialState as unknown) as LoginByUserNameType) = JSON.parse(initialState);
 } else {
-  let token = localStorage.getItem('my-app-order-system');
+  let token = localStorage.getItem('my-app-order-system-token');
   if (!token) {
     token = '';
   }
@@ -31,13 +31,14 @@ export function loginByUserName(
   switch (action.type) {
     case LOGIN_REQUEST:
       return {
-        ...state,
+        error: '',
         isFetching: true,
         remember: action.remember,
+        token: '',
+        userName: '',
       };
     case LOGIN_SUCCESS:
       return {
-        ...state,
         error: '',
         isFetching: false,
         remember: action.remember,
@@ -46,10 +47,11 @@ export function loginByUserName(
       };
     case LOGIN_FAILURE:
       return {
-        ...state,
         error: action.error,
         isFetching: false,
         remember: false,
+        token: '',
+        userName: '',
       };
     default:
       return state;

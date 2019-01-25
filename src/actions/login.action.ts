@@ -63,7 +63,7 @@ export const fetchLoginByToken = (token: string) => async (
   dispatch: Dispatch,
 ) => {
   dispatch(loginRequest());
-  return loginByToken(token)
+  return loginByToken({token})
     .then((response) => response.data)
     .then((responseData) => {
       // login success
@@ -72,10 +72,11 @@ export const fetchLoginByToken = (token: string) => async (
       const { data, type } = responseData;
       if (type === 'success_login') {
         // dispatch action
-        loginSuccess({
-          token: data.token,
-          userName: data.userName,
-        });
+        dispatch(
+          loginSuccess({
+            token: data.token,
+            userName: data.userName,
+          }));
       } else {
         let action;
         if (type === 'wrong_token') {
