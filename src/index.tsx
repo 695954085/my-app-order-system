@@ -2,27 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
-import { createLogger } from 'redux-logger';
-import thunk from 'redux-thunk';
 import { fetchLoginByToken } from './actions/login.action';
 import App from './App';
 import './index.css';
-import reducer from './reducers';
+import { store } from './reducers/index';
 import * as serviceWorker from './serviceWorker';
-
-const middleware: any[] = [thunk];
-if (process.env.NODE_ENV !== 'production') {
-  middleware.push(createLogger());
-}
-
-const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  reducer,
-  composeEnhancers(applyMiddleware(...middleware)),
-);
-
 // if sessionStorage don't exists, login using the logcalStorage token
 const sessionStorage = window.sessionStorage.getItem(
   'loginByuserNameInitialState',
