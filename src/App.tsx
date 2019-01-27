@@ -15,7 +15,6 @@ function App({ isLogin }: AppContainerStateProps & AppContainerOwnProps) {
       <Switch>
         <Route exact path='/login' component={LoginContainer} />
         <Route
-          exact
           path='/'
           render={(props) =>
             !isLogin ? <Redirect to='/login' /> : <MainContainer {...props} />

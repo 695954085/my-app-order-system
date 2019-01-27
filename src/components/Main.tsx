@@ -9,19 +9,12 @@ export default class Main extends React.Component<
   MainComponentOwnProps,
   MainComponentState
 > {
-  public state = {
-    current: 'vendor',
-  };
 
   public constructor(props: MainComponentOwnProps) {
     super(props);
   }
 
   public handleClick = (e: any) => {
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
     // Redirection
     // 1. get the serviceType
     const serviceType = ServiceTypes.filter((value) => {
@@ -44,9 +37,9 @@ export default class Main extends React.Component<
         <Header>
           <div className='logo' />
           <Menu
+            onSelect={this.handleClick}
             theme='dark'
             mode='horizontal'
-            selectedKeys={[this.state.current]}
             style={{ lineHeight: '64px' }}
           >
             {ServiceTypes.map((value) => (
